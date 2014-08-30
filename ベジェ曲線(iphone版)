@@ -1,0 +1,93 @@
+final int rectsize = 10; 
+final float ballcount = 100;
+int startX = 10;
+int startY = 490;
+int endX = 300;
+int endY = 10;  
+int redX = 280;
+int redY = 480;
+int blueX = 50;
+int blueY = 10;
+float t;
+float bezierX;
+float bezierY;
+
+boolean IsCollision_Circle(float posX, float posY, float r, float col_posX, float col_posY, float col_r)
+{
+    float vectorX = posX - col_posX;
+    float vectorY = posY - col_posY;
+    float R = r + col_r;
+
+    if ((vectorX * vectorX) + (vectorY * vectorY) < R * R)
+    {
+      return true;
+    }
+    else
+    {
+      return false;
+    }
+  }
+
+void setup(){
+  size(screen.width, screen.height);
+}
+ 
+void draw(){
+  smooth();
+  background(255, 255, 255); 
+ 
+  noStroke();
+  fill(255, 0, 100, 200);
+  rectMode(CENTER);
+
+  if(IsCollision_Circle(startX, startY, rectsize * 2, mouseX, mouseY, 5))
+  {
+    startX = mouseX;
+    startY = mouseY;
+  }
+  if(IsCollision_Circle(endX, endY, rectsize * 2, mouseX, mouseY, 5))
+  {
+    endX = mouseX;
+    endY = mouseY;
+  }
+  if(IsCollision_Circle(redX, redY, rectsize * 2, mouseX, mouseY, 5))
+  {
+    redX = mouseX;
+    redY = mouseY;
+  }
+  if(IsCollision_Circle(blueX, blueY, rectsize * 2, mouseX, mouseY, 5))
+  {
+    blueX = mouseX;
+    blueY = mouseY;
+  }
+  
+  //  line
+  stroke(255, 0, 0, 200);
+  line(startX, startY, redX, redY);
+  stroke(255, 0, 255, 200);
+  line(redX, redY, blueX, blueY);
+  stroke(0, 0, 255, 200);
+  line(blueX, blueY, endX, endY);
+ 
+   //  red
+  noStroke();
+  fill(255, 0, 0, 200);
+  rect(redX, redY, rectsize, rectsize);
+  //  blue
+  fill(0, 0, 255, 200);
+  rect(blueX, blueY, rectsize, rectsize);
+
+  noStroke();
+  fill(0, 255, 255, 200);
+  for(int i = 0; i <= ballcount; i++)
+  {
+    t = (float)i / ballcount;
+    bezierX = ((1-t)*(1-t)*(1-t)*startX) + (3*(1-t)*(1-t)*t*redX) + (3*(1-t)*t*t*blueX) + (t*t*t*endX);
+    bezierY = ((1-t)*(1-t)*(1-t)*startY) + (3*(1-t)*(1-t)*t*redY) + (3*(1-t)*t*t*blueY) + (t*t*t*endY);
+    ellipse(bezierX, bezierY, 5, 5);
+  }
+  
+  fill(0);
+  rect(startX, startY, rectsize, rectsize);
+  rect(endX, endY, rectsize, rectsize);
+}
