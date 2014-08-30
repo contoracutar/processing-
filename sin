@@ -1,0 +1,21 @@
+void setup()
+{
+  size(500,500);
+  smooth();
+}
+void draw()
+{
+  noStroke();
+  fill(0, 0, 0, 10);
+  rect(0, 0, width, height);
+  
+  fill(0, 0, 255);
+  translate(0, height / 2);
+  if(mousePressed == true)
+  {
+    for(float x = 0; x <= width; x += 0.1)
+    {
+      ellipse(x, 100 * sin(radians(mouseY / 20 * frameCount - x) * mouseX / 150), 5, 5);
+    }
+  }
+}
