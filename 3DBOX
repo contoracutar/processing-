@@ -1,0 +1,19 @@
+int count = 0;
+void setup()
+{
+  size(400, 400, P3D);
+}
+ 
+void draw()
+{
+  background(0);
+  count++;
+  
+  fill(random(255), 0, random(255));
+  translate(width / 2, height / 2);
+  rotateX(radians(count));
+  rotateY(radians(count));
+  rotateZ(radians(count));
+  box(150, 150, 150);
+  if(count == 360){ count=0; }
+}
